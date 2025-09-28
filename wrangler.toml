@@ -1,0 +1,28 @@
+name = "colby-mcp"
+main = "src/index.ts"
+compatibility_date = "2024-08-15"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+binding = "ASSETS"
+directory = "public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mcp_db"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "00000000000000000000000000000000"
+
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "mcp-index"
+
+[[browser]]
+binding = "BROWSER"
+
+[[durable_objects.bindings]]
+name = "LONG_TASK"
+class_name = "LongTaskDurableObject"

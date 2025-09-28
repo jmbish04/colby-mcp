@@ -1,0 +1,24 @@
+{
+  "name": "colby-mcp",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker MCP server with Cloudflare tooling integrations.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "build": "wrangler deploy --dry-run",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.2",
+    "hono": "^4.5.5",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.24.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240815.0",
+    "esbuild": "^0.21.5",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.60.2"
+  }
+}
