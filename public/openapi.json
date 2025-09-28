@@ -1,0 +1,120 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cloudflare MCP Worker",
+    "version": "1.0.0",
+    "description": "REST surface for invoking MCP tools exposed by the Cloudflare Worker."
+  },
+  "paths": {
+    "/api/tools": {
+      "get": {
+        "operationId": "listTools",
+        "summary": "List available MCP tools",
+        "responses": {
+          "200": {
+            "description": "Array of tools exposed by the MCP server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tools": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ToolDefinition"
+                      }
+                    }
+                  },
+                  "required": ["tools"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tools/{toolName}": {
+      "post": {
+        "operationId": "invokeTool",
+        "summary": "Invoke a specific MCP tool",
+        "parameters": [
+          {
+            "name": "toolName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "arguments": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "required": ["arguments"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool invocation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tool not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ToolDefinition": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "schema": { "type": "object", "additionalProperties": true }
+        },
+        "required": ["name", "description", "schema"]
+      },
+      "ToolResult": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string" },
+                "text": { "type": "string" },
+                "data": { "type": "object", "additionalProperties": true }
+              },
+              "required": ["type"]
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": ["content"]
+      }
+    }
+  }
+}
